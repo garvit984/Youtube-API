@@ -1,0 +1,86 @@
+
+{% extends "home/base.html" %}
+
+{% block content %}
+
+  <div class="alert my-4 alert-info" role="alert">
+    Search for your favorate youtube video!
+  </div>
+
+  <!--Form --->
+  <form class="d-flex" action="" method="POST" id="systemForm">
+    {% csrf_token %}
+    <input type="text" class="form-control mx-2" required="" name="searched" value="{{ instance.name }}" id="uss">
+    <button type="submit" name="user_field" value="user_search" form="systemForm" class="btn btn-warning" >Search</button>
+    <div class="btn-group mx-2">
+      <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Sort By
+      </button>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="?sortby=">Relevance</a>
+        <a class="dropdown-item" href="?sortby=-publishTime">Upload Date</a>
+      </div>
+    </div>
+  </form>
+  
+
+  
+
+  <div class="d-flex flex-column">
+  <!--Videos-->
+  {% for video in videos %}
+    
+  <div class="card text-center my-2">
+      <h5 class="card-header">{{video.title}}</h5>
+      <div class="card-body text-left">
+          <img class="img-thumbnail" src="{{video.thumbnail_url}}" alt="Card image cap">
+          
+          <p>{{video.description}}</p>
+          <p>Uploaded by {{ video.channelTitle }} on {{ video.publishTime }}</p>
+
+          <!-- Button -->
+          <div class="btn-group">
+              <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#videoModal" data-video="https://www.youtube.com/embed/{{video.url}}">Launch Video</button>
+          </div>
+          
+          <!-- Modal -->
+          <div class="modal fade" id="videoModal" tabindex="-1" role="dialog">
+              <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                  <div class="modal-content">
+                      <div class="modal-header bg-dark border-dark">
+                          <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+                      </div>
+                      <div class="modal-body bg-dark p-0">
+                          <div class="embed-responsive embed-responsive-16by9">
+                            <iframe class="embed-responsive-item" allowfullscreen></iframe>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          
+    </div>
+  </div>
+  {% endfor %}
+  </div>
+
+  <nav aria-label="...">
+    <ul class="pagination pagination-sm">
+      {% for num in videos.paginator.page_range %}
+        <li class="page-item"><a class="page-link" href="?page={{num}}">{{num}}</a></li>
+      {% endfor %}
+    </ul>
+  </nav>
+
+
+
+
+
+{% endblock content %}
+
+
+
+
+    
+
+

@@ -1,0 +1,10 @@
+
+ytManager/__pycache__/keys.cpython-39.pyc
+search/__pycache__/__init__.cpython-39.pyc
+search/__pycache__/urls.cpython-39.pyc
+search/__pycache__/views.cpython-39.pyc
+fam_django/__pycache__/__init__.cpython-39.pyc
+fam_django/__pycache__/settings.cpython-39.pyc
+fam_django/__pycache__/urls.cpython-39.pyc
+fam_django/__pycache__/wsgi.cpython-39.pyc
+db.sqlite3
