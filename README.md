@@ -11,6 +11,8 @@ To make an API to fetch latest videos sorted in reverse chronological order of t
   - endpoint: /video
   - sample query: http://127.0.0.1:8000/video/
 - ✅ A basic search API to search the stored videos using their title and description.
+  - endpoint: /search
+  - sample query: http://127.0.0.1:8000/search/?s=hardest
 - ✅ Dockerize the project.
   - run using docker-compose
 - ✅ It should be scalable and optimised.

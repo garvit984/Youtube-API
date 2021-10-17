@@ -17,28 +17,12 @@ def home(request):
     if request.GET.get('sortby') == '':
         sortby = request.GET.get('sortby')
     if request.method == "POST":
-        
-        # Clear the database
-        #delete_videos_database()
         #Search field
         user_search_data = request.POST['searched']
-        
-        # Let us access in the template, info of each video
-        #data = getListVideos(user_search_data)
-        
-        # Sorting   
-        #res = data['items']
-        # Add to database
-        #add_to_database(res)
         # Database Paginator
         paginator_ = Paginator(sort_filter_videos(filter=user_search_data,sort_by=sortby), 12)
         page = request.GET.get('page')
         video_build_list = paginator_.get_page(page)
-        loop = asyncio.new_event_loop()
-        t = Thread(target=start_background_loop, args=(loop,), daemon=True)
-        t.start()
-        
-        task = asyncio.run_coroutine_threadsafe(refresh_loop(user_search_data), loop)
         context = {
         'videos': video_build_list,
         'video_build_list': video_build_list,
@@ -50,7 +34,16 @@ def home(request):
         #video = Video.objects.filter(title__icontains=user_search_data, description__icontains=user_search_data)
         return render(request, 'home/home.html', context)
     else:
-        # Database Paginator
+        delete_videos_database()
+        data = getListVideos('Vegeta')
+        res = data['items']
+        add_to_database(res)
+        loop = asyncio.new_event_loop()
+        t = Thread(target=start_background_loop, args=(loop,), daemon=True)
+        t.start()
+        task = asyncio.run_coroutine_threadsafe(
+            refresh_loop('Vegeta'), loop)
+            
         paginator_ = Paginator(sort_filter_videos(sort_by=sortby), 12)
         page = request.GET.get('page')
         video_build_list = paginator_.get_page(page)        
@@ -62,5 +55,10 @@ def home(request):
 
 def getVideo(request):
     video = list(Video.objects.order_by('-publishTime').values())
+    return JsonResponse(video, safe=False)
+
+def searchVideo(request):
+    search_data=request.GET.get('s')
+    video = list(sort_filter_videos(filter=search_data, sort_by='-publishTime').values())
     return JsonResponse(video, safe=False)
 

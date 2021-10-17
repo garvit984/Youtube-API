@@ -21,4 +21,5 @@ from django.urls import path, include
 urlpatterns = [
     path('', views.home, name='home'),
     path('video/', views.getVideo, name='video'),
+    path('search/', views.searchVideo, name='search'),
 ]
